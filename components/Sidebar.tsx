@@ -1,9 +1,10 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 import {
-  Zap, LayoutGrid, MessageSquare, TrendingUp, Hash,
+  LayoutGrid, MessageSquare, TrendingUp, Hash,
   PlusCircle, LogOut, LogIn, Users, Bookmark, Settings, FileText,
 } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -62,12 +63,9 @@ export default function Sidebar({ profile }: { profile: Profile | null }) {
   return (
     <aside className="hidden lg:flex w-56 shrink-0 flex-col border-r border-white/[0.06] bg-[#0A0A0F] h-screen sticky top-0 z-40">
       {/* Logo */}
-      <div className="px-5 pt-5 pb-3">
-        <Link href="/" className="flex items-center gap-2.5 group">
-          <div className="w-7 h-7 rounded-lg bg-violet-600 flex items-center justify-center group-hover:bg-violet-500 transition-colors">
-            <Zap className="h-4 w-4 text-white" />
-          </div>
-          <span className="font-bold text-white text-base tracking-tight">RatRace</span>
+      <div className="px-4 pt-4 pb-3">
+        <Link href="/">
+          <Image src="/logo.png" alt="RatRace" width={140} height={140} className="w-full max-w-[140px]" priority />
         </Link>
       </div>
 
