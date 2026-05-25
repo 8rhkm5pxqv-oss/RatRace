@@ -5,18 +5,18 @@ function cacheKey(text: string) {
   for (let i = 0; i < Math.min(text.length, 120); i++) {
     h = (Math.imul(h, 33) ^ text.charCodeAt(i)) >>> 0
   }
-  return 'rr_tr_' + h.toString(36)
+  return 'rr_tr2_' + h.toString(36)
 }
 
 async function fetchTranslation(text: string): Promise<string> {
-  const r = await fetch(
-    `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=de|en`,
-    { signal: AbortSignal.timeout(5000) }
-  )
+  const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=de&tl=en&dt=t&q=${encodeURIComponent(text)}`
+  const r = await fetch(url, { signal: AbortSignal.timeout(6000) })
   const d = await r.json()
-  const t: string = d.responseData?.translatedText ?? text
-  // MyMemory returns the original if it can't translate
-  return t.includes('MYMEMORY WARNING') ? text : t
+  // Response is [[['translated', 'original', ...], ...], ...]
+  const translated: string = (d[0] as [string, string][])
+    .map(x => x[0] ?? '')
+    .join('')
+  return translated.trim() || text
 }
 
 export async function translateToEnglish(text: string): Promise<string> {
@@ -31,22 +31,9 @@ export async function translateToEnglish(text: string): Promise<string> {
     if (stored) { MEM[key] = stored; return stored }
   } catch {}
 
-  // Split into ≤450-char chunks (MyMemory limit)
-  const chunks: string[] = []
-  let buf = ''
-  for (const sentence of text.split(/(?<=[.!?…])\s+/)) {
-    if (buf.length + sentence.length > 450) {
-      if (buf) chunks.push(buf.trim())
-      buf = sentence
-    } else {
-      buf += (buf ? ' ' : '') + sentence
-    }
-  }
-  if (buf) chunks.push(buf.trim())
-
+  // Google Translate unofficial endpoint handles long text natively — no chunking needed
   try {
-    const parts = await Promise.all(chunks.map(c => fetchTranslation(c).catch(() => c)))
-    const result = parts.join(' ')
+    const result = await fetchTranslation(text)
     MEM[key] = result
     try { localStorage.setItem(key, result) } catch {}
     return result
