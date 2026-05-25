@@ -29,19 +29,19 @@ function ProfileCard({ profile }: { profile: Profile }) {
 
   return (
     <Link href={`/profile/${profile.id}`} className="block group">
-      <div className="rounded-xl border border-white/[0.06] bg-[#111118] p-5 transition-all duration-200 hover:border-white/[0.1] hover:bg-[#131321] h-full">
+      <div className="rounded-xl border border-white/[0.06] bg-[#141414] p-5 transition-all duration-200 hover:border-white/[0.1] hover:bg-[#131321] h-full">
         <div className="flex items-start gap-4 mb-3">
           <Avatar className="h-12 w-12 shrink-0">
             <AvatarImage src={profile.avatar_url ?? undefined} />
-            <AvatarFallback className="bg-violet-700/60 text-white text-sm">{initials}</AvatarFallback>
+            <AvatarFallback className="bg-violet-600/70 text-white text-sm">{initials}</AvatarFallback>
           </Avatar>
           <div className="min-w-0 flex-1">
-            <p className="font-semibold text-[#F0F0F5] group-hover:text-white transition-colors truncate">
+            <p className="font-semibold text-zinc-100 group-hover:text-white transition-colors truncate">
               {profile.full_name || profile.username}
             </p>
-            <p className="text-xs text-[#4B4B5A]">@{profile.username}</p>
+            <p className="text-xs text-zinc-600">@{profile.username}</p>
             {profile.location && (
-              <p className="text-xs text-[#6B7280] flex items-center gap-1 mt-0.5">
+              <p className="text-xs text-zinc-500 flex items-center gap-1 mt-0.5">
                 <MapPin className="h-3 w-3 shrink-0" />
                 {profile.location}
               </p>
@@ -50,7 +50,7 @@ function ProfileCard({ profile }: { profile: Profile }) {
         </div>
 
         {profile.bio && (
-          <p className="text-sm text-[#6B7280] leading-relaxed line-clamp-2 mb-3">
+          <p className="text-sm text-zinc-500 leading-relaxed line-clamp-2 mb-3">
             {profile.bio}
           </p>
         )}
@@ -76,13 +76,13 @@ export default async function FoundersPage() {
     <div className="px-6 py-6">
       <div className="mb-6 border-b border-white/[0.05] pb-5">
         <h1 className="text-lg font-semibold text-white tracking-tight">Founders</h1>
-        <p className="text-xs text-[#4B4B5A] mt-0.5">
+        <p className="text-xs text-zinc-600 mt-0.5">
           {profiles.length} Gründer auf der Plattform
         </p>
       </div>
 
       {profiles.length === 0 ? (
-        <div className="text-center py-16 text-[#6B7280]">
+        <div className="text-center py-16 text-zinc-500">
           <Users className="h-10 w-10 mx-auto mb-3 opacity-20" />
           <p className="font-medium text-[#A0A0B0]">Noch keine Profile</p>
           <p className="text-sm mt-1">Sei der erste Gründer auf RatRace</p>

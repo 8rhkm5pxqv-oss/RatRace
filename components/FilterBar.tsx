@@ -56,8 +56,8 @@ export default function FilterBar() {
       className={cn(
         'shrink-0 text-xs px-3 py-1.5 rounded-full font-medium transition-all duration-150 whitespace-nowrap',
         active
-          ? 'bg-violet-600 text-white shadow-sm shadow-violet-900/40'
-          : 'bg-white/[0.04] text-[#6B7280] border border-white/[0.06] hover:bg-white/[0.07] hover:text-[#A0A0B0] hover:border-white/[0.1]'
+          ? 'bg-violet-600 text-white shadow-sm shadow-violet-900/30'
+          : 'bg-zinc-900/70 text-zinc-500 border border-white/[0.06] hover:bg-zinc-800/70 hover:text-zinc-300 hover:border-white/[0.1]'
       )}
     >
       {label}

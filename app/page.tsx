@@ -41,22 +41,19 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
   return (
     <div className="flex flex-col flex-1 min-h-0">
       {/* Top bar */}
-      <div className="px-6 pt-6 pb-4 border-b border-white/[0.05] shrink-0 space-y-3">
+      <div className="px-5 pt-5 pb-4 border-b border-white/[0.06] shrink-0 space-y-3">
         <div className="flex items-baseline justify-between">
-          <div>
-            <h1 className="text-lg font-semibold text-white tracking-tight">Feed</h1>
-            <p className="text-xs text-[#4B4B5A] mt-0.5">{listings.length} active listings</p>
-          </div>
+          <h1 className="text-sm font-medium text-zinc-400">Feed</h1>
+          <span className="text-xs text-zinc-600">{listings.length} listings</span>
         </div>
 
-        {/* Search */}
         <form method="get" className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-[#3A3A4A] pointer-events-none" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-zinc-600 pointer-events-none" />
           <Input
             name="q"
             placeholder="Search roles, skills, stage..."
             defaultValue={params.q ?? ''}
-            className="pl-8 h-9 bg-white/[0.03] border-white/[0.07] text-[#F0F0F5] placeholder:text-[#3A3A4A] focus:border-violet-500/40 focus:bg-white/[0.05] text-sm transition-all duration-150"
+            className="pl-8 h-9 bg-zinc-900/60 border-white/[0.06] text-zinc-200 placeholder:text-zinc-600 focus:border-violet-500/30 focus:bg-zinc-900 text-sm transition-all duration-150"
           />
           {params.role && <input type="hidden" name="role" value={params.role} />}
           {params.stage && <input type="hidden" name="stage" value={params.stage} />}
@@ -68,8 +65,8 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
         </Suspense>
 
         {hasFilter && (
-          <a href="/" className="text-[11px] text-violet-400/80 hover:text-violet-400 transition-colors inline-flex items-center gap-1">
-            ✕ Filter zurücksetzen
+          <a href="/" className="text-[11px] text-zinc-600 hover:text-zinc-400 transition-colors inline-flex items-center gap-1">
+            ✕ Clear filters
           </a>
         )}
       </div>

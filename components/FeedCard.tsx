@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { MapPin, Bookmark } from 'lucide-react'
+import { MapPin, Bookmark, ArrowUpRight } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { cn } from '@/lib/utils'
 import MessageButton from './MessageButton'
@@ -19,28 +19,18 @@ function toggleWatchlist(id: string): boolean {
 }
 
 const ROLE_LABEL: Record<string, string> = {
-  cofounder: 'Co-Founder',
-  developer: 'Developer',
-  designer: 'Designer',
-  marketing: 'Marketing',
-  sales: 'Sales',
-  investor: 'Investor',
-  other: 'Other',
+  cofounder: 'Co-Founder', developer: 'Developer', designer: 'Designer',
+  marketing: 'Marketing', sales: 'Sales', investor: 'Investor', other: 'Other',
 }
-const ROLE_COLOR: Record<string, string> = {
-  cofounder: 'text-blue-400',
-  developer: 'text-violet-400',
-  designer: 'text-pink-400',
-  marketing: 'text-emerald-400',
-  sales: 'text-orange-400',
-  investor: 'text-amber-400',
-  other: 'text-[#6B7280]',
+const ROLE_DOT: Record<string, string> = {
+  cofounder: 'bg-blue-400', developer: 'bg-violet-400', designer: 'bg-pink-400',
+  marketing: 'bg-emerald-400', sales: 'bg-orange-400', investor: 'bg-amber-400', other: 'bg-zinc-500',
 }
 const STAGE_LABEL: Record<string, string> = {
   idea: 'Idea', mvp: 'MVP', revenue: 'Revenue', funded: 'Funded',
 }
 const STAGE_STYLE: Record<string, string> = {
-  idea: 'text-[#A0A0B0] bg-white/[0.05] border-white/[0.06]',
+  idea: 'text-zinc-400 bg-zinc-800/60 border-zinc-700/50',
   mvp: 'text-blue-400 bg-blue-500/10 border-blue-500/20',
   revenue: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20',
   funded: 'text-amber-400 bg-amber-500/10 border-amber-500/20',
@@ -53,9 +43,9 @@ function timeAgo(iso: string) {
   const ms = Date.now() - new Date(iso).getTime()
   const h = Math.floor(ms / 3600000)
   if (h < 1) return 'just now'
-  if (h < 24) return `${h}h ago`
+  if (h < 24) return `${h}h`
   const d = Math.floor(h / 24)
-  return d === 1 ? '1d ago' : `${d}d ago`
+  return `${d}d`
 }
 
 export default function FeedCard({ listing }: { listing: Listing }) {
@@ -71,88 +61,76 @@ export default function FeedCard({ listing }: { listing: Listing }) {
   const profile = listing.profiles
   const initials =
     profile?.full_name?.split(' ').map(n => n[0]).join('') ??
-    profile?.username?.[0]?.toUpperCase() ??
-    '?'
-  const tags = profile?.skills?.slice(0, 4) ?? []
+    profile?.username?.[0]?.toUpperCase() ?? '?'
+  const tags = profile?.skills?.slice(0, 3) ?? []
 
   return (
     <div
       onClick={() => router.push(`/profile/${listing.user_id}`)}
-      className="cursor-pointer group rounded-xl border border-white/[0.06] bg-[#111118] px-5 py-4 transition-all duration-200 hover:border-white/[0.1] hover:bg-[#131321]"
+      className="group relative cursor-pointer rounded-xl border border-white/[0.07] bg-[#141414] px-6 py-5 transition-all duration-200 hover:border-white/[0.13] hover:bg-[#181818]"
     >
-      {/* Header: avatar + name + time | stage badge */}
-      <div className="flex items-center justify-between mb-2.5 gap-2">
-        <div className="flex items-center gap-2.5 min-w-0">
-          <Avatar className="h-7 w-7 shrink-0">
-            <AvatarImage src={profile?.avatar_url ?? undefined} />
-            <AvatarFallback className="bg-violet-700/50 text-white text-[9px]">{initials}</AvatarFallback>
-          </Avatar>
-          <div className="flex items-center gap-1.5 min-w-0 text-xs">
-            <span className="font-medium text-[#C0C0D0] truncate">
-              {profile?.full_name || profile?.username || 'Anonym'}
-            </span>
-            <span className="text-[#2E2E3A] shrink-0">·</span>
-            <span className="text-[#4B4B5A] shrink-0">{timeAgo(listing.created_at)}</span>
-          </div>
+      {/* Top row: role dot + label | time + stage */}
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2">
+          <span className={cn('h-1.5 w-1.5 rounded-full shrink-0', ROLE_DOT[listing.role_category] ?? 'bg-zinc-500')} />
+          <span className="text-xs font-medium text-zinc-400">
+            Looking for {ROLE_LABEL[listing.role_category] ?? listing.role_category}
+          </span>
         </div>
-        <span className={cn(
-          'shrink-0 text-[11px] px-2.5 py-0.5 rounded-full font-medium border',
-          STAGE_STYLE[listing.stage] ?? 'text-[#A0A0B0] bg-white/[0.05] border-white/[0.06]'
-        )}>
-          {STAGE_LABEL[listing.stage] ?? listing.stage}
-        </span>
+        <div className="flex items-center gap-2">
+          <span className="text-xs text-zinc-600">{timeAgo(listing.created_at)}</span>
+          <span className={cn('text-[11px] px-2 py-0.5 rounded-md font-medium border', STAGE_STYLE[listing.stage] ?? 'text-zinc-400 bg-zinc-800/60 border-zinc-700/50')}>
+            {STAGE_LABEL[listing.stage] ?? listing.stage}
+          </span>
+        </div>
       </div>
 
-      {/* Role label */}
-      <p className={cn('text-[10px] font-semibold uppercase tracking-widest mb-1.5', ROLE_COLOR[listing.role_category] ?? 'text-[#6B7280]')}>
-        Looking for {ROLE_LABEL[listing.role_category] ?? listing.role_category}
-      </p>
-
       {/* Title */}
-      <h3 className="font-semibold text-[#F0F0F5] text-[15px] leading-snug mb-1.5 group-hover:text-white transition-colors duration-150">
+      <h3 className="font-semibold text-[#ededed] text-base leading-snug mb-2 group-hover:text-white transition-colors duration-150">
         {listing.title}
       </h3>
 
       {/* Description */}
-      <p className="text-sm text-[#6B7280] leading-relaxed line-clamp-2 mb-3">
+      <p className="text-sm text-zinc-500 leading-relaxed line-clamp-2 mb-4">
         {listing.description}
       </p>
 
       {/* Skills */}
       {tags.length > 0 && (
-        <div className="flex flex-wrap gap-1.5 mb-3">
+        <div className="flex flex-wrap gap-1.5 mb-4">
           {tags.map(tag => (
-            <span key={tag} className="text-[11px] px-2 py-0.5 rounded-md bg-white/[0.04] text-[#5A5A6A] border border-white/[0.05]">
+            <span key={tag} className="text-[11px] px-2 py-0.5 rounded-md bg-zinc-800/60 text-zinc-400 border border-zinc-700/40">
               {tag}
             </span>
           ))}
         </div>
       )}
 
-      {/* Footer: meta | actions */}
-      <div className="flex items-center justify-between gap-2 pt-0.5">
-        <div className="flex items-center gap-3 text-xs text-[#4B4B5A] min-w-0">
+      {/* Footer: author | meta | actions */}
+      <div className="flex items-center justify-between gap-3 pt-3 border-t border-white/[0.05]">
+        <div className="flex items-center gap-2.5 min-w-0">
+          <Avatar className="h-6 w-6 shrink-0">
+            <AvatarImage src={profile?.avatar_url ?? undefined} />
+            <AvatarFallback className="bg-violet-600/70 text-white text-[9px]">{initials}</AvatarFallback>
+          </Avatar>
+          <span className="text-xs text-zinc-500 truncate">
+            {profile?.full_name || profile?.username || 'Anonym'}
+          </span>
           {profile?.location && (
-            <span className="flex items-center gap-1 min-w-0">
-              <MapPin className="h-3 w-3 shrink-0" />
-              <span className="truncate">{profile.location}</span>
-            </span>
-          )}
-          <span className="shrink-0">{COMP_LABEL[listing.compensation_type]}</span>
-          {listing.equity_percent != null && listing.compensation_type !== 'salary' && (
-            <span className="shrink-0">{listing.equity_percent}% equity</span>
+            <>
+              <span className="text-zinc-700 shrink-0">·</span>
+              <span className="text-xs text-zinc-600 flex items-center gap-1 shrink-0">
+                <MapPin className="h-3 w-3" />{profile.location}
+              </span>
+            </>
           )}
         </div>
 
-        <div className="flex items-center gap-0.5 shrink-0" onClick={e => e.stopPropagation()}>
+        <div className="flex items-center gap-1 shrink-0" onClick={e => e.stopPropagation()}>
+          <span className="text-[11px] text-zinc-600 mr-1">{COMP_LABEL[listing.compensation_type]}{listing.equity_percent != null && listing.compensation_type !== 'salary' ? ` · ${listing.equity_percent}%` : ''}</span>
           <button
             onClick={handleBookmark}
-            className={cn(
-              'p-1.5 rounded-lg transition-all duration-150',
-              bookmarked
-                ? 'text-violet-400 hover:text-violet-300'
-                : 'text-[#2E2E3A] hover:text-[#6B7280] hover:bg-white/[0.04]'
-            )}
+            className={cn('p-1.5 rounded-lg transition-all duration-100', bookmarked ? 'text-violet-400' : 'text-zinc-700 hover:text-zinc-400 hover:bg-white/[0.04]')}
           >
             <Bookmark className={cn('h-3.5 w-3.5', bookmarked && 'fill-current')} />
           </button>

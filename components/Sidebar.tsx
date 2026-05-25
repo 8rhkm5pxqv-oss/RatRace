@@ -46,12 +46,12 @@ export default function Sidebar({ profile }: { profile: Profile | null }) {
       <Link
         href={href}
         className={cn(
-          'flex items-center gap-3 py-2 rounded-lg text-sm font-medium transition-all duration-150 border-l-2 pl-[10px] pr-3',
+          'flex items-center gap-3 py-2 rounded-lg text-sm transition-all duration-150 border-l-2 pl-[10px] pr-3',
           isActive
-            ? 'border-violet-500 bg-violet-500/[0.07] text-white'
+            ? 'border-violet-500 bg-violet-500/[0.08] text-white font-medium'
             : amber
-            ? 'border-transparent text-amber-400/70 hover:bg-amber-500/[0.05] hover:text-amber-400'
-            : 'border-transparent text-[#5A5A6A] hover:bg-white/[0.04] hover:text-[#A0A0B0]'
+            ? 'border-transparent font-normal text-amber-500/70 hover:bg-amber-500/[0.05] hover:text-amber-400'
+            : 'border-transparent font-normal text-zinc-500 hover:bg-white/[0.04] hover:text-zinc-300'
         )}
       >
         <Icon className="h-4 w-4 shrink-0" />
@@ -61,7 +61,7 @@ export default function Sidebar({ profile }: { profile: Profile | null }) {
   }
 
   return (
-    <aside className="hidden lg:flex w-56 shrink-0 flex-col border-r border-white/[0.05] bg-[#0A0A0F] h-screen sticky top-0 z-40">
+    <aside className="hidden lg:flex w-52 shrink-0 flex-col border-r border-white/[0.06] bg-[#0a0a0a] h-screen sticky top-0 z-40">
       {/* Logo */}
       <div className="px-4 pt-5 pb-4">
         <Link href="/">
@@ -85,7 +85,7 @@ export default function Sidebar({ profile }: { profile: Profile | null }) {
         {NAV_MAIN.map(item => <NavLink key={item.href} {...item} />)}
 
         <div className="pt-4 pb-1">
-          <p className="px-3 text-[9px] font-semibold text-[#2E2E3A] uppercase tracking-[0.12em]">Personal</p>
+          <p className="px-3 text-[9px] font-medium text-zinc-700 uppercase tracking-[0.12em]">Personal</p>
         </div>
 
         {NAV_PERSONAL.map(item => <NavLink key={item.href} {...item} />)}
@@ -100,14 +100,14 @@ export default function Sidebar({ profile }: { profile: Profile | null }) {
             <Link href={`/profile/${profile.id}`}>
               <Avatar className="h-6 w-6 shrink-0">
                 <AvatarImage src={profile.avatar_url ?? undefined} />
-                <AvatarFallback className="bg-violet-700/80 text-white text-[9px]">{initials}</AvatarFallback>
+                <AvatarFallback className="bg-violet-600/70 text-white text-[9px]">{initials}</AvatarFallback>
               </Avatar>
             </Link>
             <div className="flex-1 min-w-0">
-              <Link href={`/profile/${profile.id}`} className="text-xs font-medium text-[#C0C0D0] truncate hover:text-white transition-colors block">
+              <Link href={`/profile/${profile.id}`} className="text-xs font-medium text-zinc-300 truncate hover:text-white transition-colors block">
                 {profile.full_name || profile.username}
               </Link>
-              <p className="text-[10px] text-[#3A3A4A] truncate">@{profile.username}</p>
+              <p className="text-[10px] text-zinc-600 truncate">@{profile.username}</p>
             </div>
             <button
               onClick={handleLogout}

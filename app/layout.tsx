@@ -31,7 +31,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   return (
     <html lang="de" className={`${geist.variable} dark antialiased`}>
-      <body className="flex h-screen overflow-hidden bg-[#0A0A0F] text-[#F0F0F5]">
+      <body className="flex h-screen overflow-hidden bg-[#0a0a0a] text-[#ededed]">
         <Sidebar profile={profile} />
         <main className="flex-1 min-w-0 flex flex-col overflow-y-auto pb-16 lg:pb-0">
           {children}
