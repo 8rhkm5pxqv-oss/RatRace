@@ -123,7 +123,7 @@ export default function Sidebar({ profile }: { profile: Profile | null }) {
             className="flex items-center gap-2.5 border-l-2 border-transparent pl-[10px] pr-3 py-2 rounded-lg text-sm text-[#5A5A6A] hover:bg-white/[0.04] hover:text-[#A0A0B0] transition-all duration-150"
           >
             <LogIn className="h-4 w-4" />
-            Anmelden
+            Sign in
           </Link>
         )}
       </div>

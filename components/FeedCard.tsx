@@ -6,6 +6,7 @@ import { MapPin, Bookmark, ArrowUpRight } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { cn } from '@/lib/utils'
 import MessageButton from './MessageButton'
+import TranslatableBlock from './TranslatableBlock'
 import type { Listing } from '@/types'
 
 function getWatchlist(): string[] {
@@ -86,14 +87,17 @@ export default function FeedCard({ listing }: { listing: Listing }) {
       </div>
 
       {/* Title */}
-      <h3 className="font-semibold text-[#ededed] text-base leading-snug mb-2 group-hover:text-white transition-colors duration-150">
-        {listing.title}
-      </h3>
+      <TranslatableBlock
+        text={listing.title}
+        as="h3"
+        className="font-semibold text-[#ededed] text-base leading-snug mb-2 group-hover:text-white transition-colors duration-150"
+      />
 
       {/* Description */}
-      <p className="text-sm text-zinc-500 leading-relaxed line-clamp-2 mb-4">
-        {listing.description}
-      </p>
+      <TranslatableBlock
+        text={listing.description}
+        className="text-sm text-zinc-500 leading-relaxed line-clamp-2 mb-4"
+      />
 
       {/* Skills */}
       {tags.length > 0 && (

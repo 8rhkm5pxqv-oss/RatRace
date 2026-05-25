@@ -7,139 +7,94 @@ const isSupabaseConfigured = () => {
   return !!(url && url !== 'your-project-url' && url.startsWith('http'))
 }
 
-function SettingsRow({
-  icon: Icon,
-  label,
-  description,
-  href,
-  external,
-  badge,
-}: {
-  icon: any
-  label: string
-  description: string
-  href?: string
-  external?: boolean
-  badge?: string
+function SettingsRow({ icon: Icon, label, description, href, external, badge }: {
+  icon: any; label: string; description: string; href?: string; external?: boolean; badge?: string
 }) {
   const inner = (
-    <div className="flex items-center gap-4 p-4 rounded-xl border border-white/[0.06] bg-[#111118] hover:bg-[#131320] hover:border-white/10 transition-all group cursor-pointer">
-      <div className="w-9 h-9 rounded-lg bg-white/[0.04] flex items-center justify-center shrink-0">
-        <Icon className="h-4 w-4 text-[#6B7280]" />
+    <div className="flex items-center gap-4 p-4 rounded-xl border border-white/[0.07] bg-[#141414] hover:bg-[#181818] hover:border-white/[0.12] transition-all group cursor-pointer">
+      <div className="w-8 h-8 rounded-lg bg-white/[0.04] flex items-center justify-center shrink-0">
+        <Icon className="h-3.5 w-3.5 text-zinc-500" />
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2">
-          <p className="text-sm font-medium text-[#F0F0F5]">{label}</p>
+          <p className="text-sm font-medium text-zinc-200">{label}</p>
           {badge && (
-            <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-violet-500/20 text-violet-300 font-medium">
+            <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-violet-500/15 text-violet-400 border border-violet-500/20 font-medium">
               {badge}
             </span>
           )}
         </div>
-        <p className="text-xs text-[#6B7280] mt-0.5">{description}</p>
+        <p className="text-xs text-zinc-600 mt-0.5">{description}</p>
       </div>
-      {external ? (
-        <ExternalLink className="h-4 w-4 text-[#4B4B5A] group-hover:text-[#A0A0B0] transition-colors shrink-0" />
-      ) : (
-        <ChevronRight className="h-4 w-4 text-[#4B4B5A] group-hover:text-[#A0A0B0] transition-colors shrink-0" />
-      )}
+      {external
+        ? <ExternalLink className="h-3.5 w-3.5 text-zinc-700 group-hover:text-zinc-400 transition-colors shrink-0" />
+        : <ChevronRight className="h-3.5 w-3.5 text-zinc-700 group-hover:text-zinc-400 transition-colors shrink-0" />
+      }
     </div>
   )
-
-  if (href) {
-    return (
-      <Link href={href} target={external ? '_blank' : undefined}>
-        {inner}
-      </Link>
-    )
-  }
+  if (href) return <Link href={href} target={external ? '_blank' : undefined}>{inner}</Link>
   return inner
 }
 
 export default async function SettingsPage() {
   let userEmail = ''
-  let userId = ''
-
   if (isSupabaseConfigured()) {
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
     userEmail = user?.email ?? ''
-    userId = user?.id ?? ''
   }
 
   return (
-    <div className="px-6 py-6 max-w-2xl">
-      <div className="flex items-center gap-2 mb-6">
-        <Settings className="h-5 w-5 text-[#6B7280]" />
-        <h1 className="text-xl font-bold text-[#F0F0F5]">Settings</h1>
+    <div className="px-5 py-6 max-w-xl">
+      <div className="mb-6 border-b border-white/[0.06] pb-5">
+        <h1 className="text-lg font-semibold text-white tracking-tight">Settings</h1>
       </div>
 
-      {/* Account */}
-      <section className="mb-6">
-        <p className="text-xs font-semibold text-[#3A3A4A] uppercase tracking-widest mb-3 px-1">Account</p>
+      <section className="mb-5">
+        <p className="text-[9px] font-medium text-zinc-700 uppercase tracking-[0.12em] mb-3 px-1">Account</p>
         <div className="space-y-2">
-          <SettingsRow
-            icon={User}
-            label="Profil bearbeiten"
-            description="Name, Bio, Skills, Avatar und Location"
-            href="/profile/edit"
-          />
+          <SettingsRow icon={User} label="Edit profile" description="Name, bio, skills, avatar and location" href="/profile/edit" />
           {userEmail && (
-            <div className="flex items-center gap-4 p-4 rounded-xl border border-white/[0.06] bg-[#111118]">
-              <div className="w-9 h-9 rounded-lg bg-white/[0.04] flex items-center justify-center shrink-0">
-                <Shield className="h-4 w-4 text-[#6B7280]" />
+            <div className="flex items-center gap-4 p-4 rounded-xl border border-white/[0.07] bg-[#141414]">
+              <div className="w-8 h-8 rounded-lg bg-white/[0.04] flex items-center justify-center shrink-0">
+                <Shield className="h-3.5 w-3.5 text-zinc-500" />
               </div>
               <div className="flex-1">
-                <p className="text-sm font-medium text-[#F0F0F5]">E-Mail</p>
-                <p className="text-xs text-[#6B7280] mt-0.5">{userEmail}</p>
+                <p className="text-sm font-medium text-zinc-200">Email</p>
+                <p className="text-xs text-zinc-600 mt-0.5">{userEmail}</p>
               </div>
             </div>
           )}
         </div>
       </section>
 
-      {/* Notifications */}
-      <section className="mb-6">
-        <p className="text-xs font-semibold text-[#3A3A4A] uppercase tracking-widest mb-3 px-1">Benachrichtigungen</p>
+      <section className="mb-5">
+        <p className="text-[9px] font-medium text-zinc-700 uppercase tracking-[0.12em] mb-3 px-1">Notifications</p>
         <div className="space-y-2">
-          <SettingsRow
-            icon={Bell}
-            label="Nachrichten"
-            description="Benachrichtigung bei neuen Nachrichten"
-            badge="Coming soon"
-          />
+          <SettingsRow icon={Bell} label="Messages" description="Notifications for new messages" badge="Coming soon" />
         </div>
       </section>
 
-      {/* Listings */}
-      <section className="mb-6">
-        <p className="text-xs font-semibold text-[#3A3A4A] uppercase tracking-widest mb-3 px-1">Inserate</p>
+      <section className="mb-5">
+        <p className="text-[9px] font-medium text-zinc-700 uppercase tracking-[0.12em] mb-3 px-1">Listings</p>
         <div className="space-y-2">
-          <SettingsRow
-            icon={CreditCard}
-            label="Meine Inserate"
-            description="Alle deine aktiven und inaktiven Inserate"
-            href="/requests"
-          />
+          <SettingsRow icon={CreditCard} label="My listings" description="All your active and inactive listings" href="/requests" />
         </div>
       </section>
 
-      {/* About */}
       <section>
-        <p className="text-xs font-semibold text-[#3A3A4A] uppercase tracking-widest mb-3 px-1">About</p>
-        <div className="space-y-2">
-          <div className="p-4 rounded-xl border border-white/[0.06] bg-[#111118]">
-            <div className="flex items-center gap-2 mb-1">
-              <div className="w-5 h-5 rounded bg-violet-600 flex items-center justify-center">
-                <span className="text-white text-[10px] font-bold">R</span>
-              </div>
-              <p className="text-sm font-bold text-[#F0F0F5]">RatRace</p>
-              <span className="text-xs text-[#4B4B5A]">v0.2.0</span>
+        <p className="text-[9px] font-medium text-zinc-700 uppercase tracking-[0.12em] mb-3 px-1">About</p>
+        <div className="p-4 rounded-xl border border-white/[0.07] bg-[#141414]">
+          <div className="flex items-center gap-2 mb-1">
+            <div className="w-5 h-5 rounded bg-violet-600 flex items-center justify-center">
+              <span className="text-white text-[10px] font-bold">R</span>
             </div>
-            <p className="text-xs text-[#6B7280]">
-              Die Plattform für Startup-Gründer und Investoren im DACH-Raum.
-            </p>
+            <p className="text-sm font-semibold text-zinc-200">RatRace</p>
+            <span className="text-xs text-zinc-600">v0.2.0</span>
           </div>
+          <p className="text-xs text-zinc-600">
+            The platform for startup founders and investors in the DACH region.
+          </p>
         </div>
       </section>
     </div>
