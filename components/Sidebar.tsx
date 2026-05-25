@@ -46,12 +46,12 @@ export default function Sidebar({ profile }: { profile: Profile | null }) {
       <Link
         href={href}
         className={cn(
-          'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
+          'flex items-center gap-3 py-2 rounded-lg text-sm font-medium transition-all duration-150 border-l-2 pl-[10px] pr-3',
           isActive
-            ? 'bg-white/[0.08] text-[#F0F0F5]'
+            ? 'border-violet-500 bg-violet-500/[0.07] text-white'
             : amber
-            ? 'text-amber-400/70 hover:bg-amber-500/[0.06] hover:text-amber-400'
-            : 'text-[#6B7280] hover:bg-white/[0.04] hover:text-[#A0A0B0]'
+            ? 'border-transparent text-amber-400/70 hover:bg-amber-500/[0.05] hover:text-amber-400'
+            : 'border-transparent text-[#5A5A6A] hover:bg-white/[0.04] hover:text-[#A0A0B0]'
         )}
       >
         <Icon className="h-4 w-4 shrink-0" />
@@ -61,21 +61,21 @@ export default function Sidebar({ profile }: { profile: Profile | null }) {
   }
 
   return (
-    <aside className="hidden lg:flex w-56 shrink-0 flex-col border-r border-white/[0.06] bg-[#0A0A0F] h-screen sticky top-0 z-40">
+    <aside className="hidden lg:flex w-56 shrink-0 flex-col border-r border-white/[0.05] bg-[#0A0A0F] h-screen sticky top-0 z-40">
       {/* Logo */}
-      <div className="px-4 pt-4 pb-3">
+      <div className="px-4 pt-5 pb-4">
         <Link href="/">
           <Image src="/logo.png" alt="RatRace" width={140} height={140} className="w-full max-w-[140px]" priority />
         </Link>
       </div>
 
       {/* New Post */}
-      <div className="px-3 mb-2">
+      <div className="px-3 mb-3">
         <Link
           href="/listings/new"
-          className="flex items-center justify-center gap-2 w-full py-2.5 rounded-lg bg-violet-600 hover:bg-violet-500 text-white text-sm font-medium transition-colors"
+          className="flex items-center justify-center gap-2 w-full py-2 rounded-lg bg-violet-600 hover:bg-violet-500 text-white text-sm font-medium transition-all duration-150 shadow-sm shadow-violet-900/30"
         >
-          <PlusCircle className="h-4 w-4" />
+          <PlusCircle className="h-3.5 w-3.5" />
           New Post
         </Link>
       </div>
@@ -84,34 +84,34 @@ export default function Sidebar({ profile }: { profile: Profile | null }) {
       <nav className="flex-1 px-3 space-y-0.5 overflow-y-auto">
         {NAV_MAIN.map(item => <NavLink key={item.href} {...item} />)}
 
-        <div className="pt-3 pb-1">
-          <p className="px-3 text-[10px] font-semibold text-[#3A3A4A] uppercase tracking-widest">Personal</p>
+        <div className="pt-4 pb-1">
+          <p className="px-3 text-[9px] font-semibold text-[#2E2E3A] uppercase tracking-[0.12em]">Personal</p>
         </div>
 
         {NAV_PERSONAL.map(item => <NavLink key={item.href} {...item} />)}
       </nav>
 
       {/* Settings + User */}
-      <div className="px-3 pb-4 pt-1 border-t border-white/[0.06] space-y-1 shrink-0">
+      <div className="px-3 pb-4 pt-2 border-t border-white/[0.05] space-y-0.5 shrink-0">
         <NavLink label="Settings" href="/settings" icon={Settings} />
 
         {profile ? (
-          <div className="flex items-center gap-2.5 px-3 py-2 mt-1">
+          <div className="flex items-center gap-2.5 px-[10px] py-2 mt-1 rounded-lg hover:bg-white/[0.03] transition-colors">
             <Link href={`/profile/${profile.id}`}>
-              <Avatar className="h-7 w-7 shrink-0">
+              <Avatar className="h-6 w-6 shrink-0">
                 <AvatarImage src={profile.avatar_url ?? undefined} />
-                <AvatarFallback className="bg-violet-700 text-white text-[10px]">{initials}</AvatarFallback>
+                <AvatarFallback className="bg-violet-700/80 text-white text-[9px]">{initials}</AvatarFallback>
               </Avatar>
             </Link>
             <div className="flex-1 min-w-0">
-              <Link href={`/profile/${profile.id}`} className="text-xs font-medium text-[#F0F0F5] truncate hover:underline block">
+              <Link href={`/profile/${profile.id}`} className="text-xs font-medium text-[#C0C0D0] truncate hover:text-white transition-colors block">
                 {profile.full_name || profile.username}
               </Link>
-              <p className="text-[10px] text-[#4B4B5A] truncate">@{profile.username}</p>
+              <p className="text-[10px] text-[#3A3A4A] truncate">@{profile.username}</p>
             </div>
             <button
               onClick={handleLogout}
-              className="p-1 text-[#4B4B5A] hover:text-red-400 transition-colors shrink-0"
+              className="p-1 text-[#3A3A4A] hover:text-red-400 transition-colors shrink-0"
               title="Abmelden"
             >
               <LogOut className="h-3.5 w-3.5" />
@@ -120,7 +120,7 @@ export default function Sidebar({ profile }: { profile: Profile | null }) {
         ) : (
           <Link
             href="/auth/login"
-            className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm text-[#6B7280] hover:bg-white/[0.04] hover:text-[#A0A0B0] transition-colors"
+            className="flex items-center gap-2.5 border-l-2 border-transparent pl-[10px] pr-3 py-2 rounded-lg text-sm text-[#5A5A6A] hover:bg-white/[0.04] hover:text-[#A0A0B0] transition-all duration-150"
           >
             <LogIn className="h-4 w-4" />
             Anmelden

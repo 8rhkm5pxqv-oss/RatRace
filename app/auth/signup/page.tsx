@@ -45,76 +45,76 @@ export default function SignupPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 gradient-hero">
-      <div className="w-full max-w-sm">
-        <div className="text-center mb-8">
-          <div className="w-12 h-12 rounded-xl bg-violet-600 flex items-center justify-center mx-auto mb-4">
-            <Rocket className="h-6 w-6 text-white" />
+      <div className="w-full max-w-[340px]">
+        <div className="text-center mb-7">
+          <div className="w-10 h-10 rounded-xl bg-violet-600/90 flex items-center justify-center mx-auto mb-5 shadow-lg shadow-violet-900/40">
+            <Rocket className="h-5 w-5 text-white" />
           </div>
-          <h1 className="text-2xl font-bold text-[#F0F0F5]">Konto erstellen</h1>
-          <p className="text-[#6B7280] text-sm mt-1">Finde deinen Mitgründer oder dein Investment</p>
+          <h1 className="text-xl font-semibold text-white tracking-tight">Konto erstellen</h1>
+          <p className="text-[#5A5A6A] text-sm mt-1">Finde deinen Mitgründer oder dein Investment</p>
         </div>
 
-        <div className="rounded-xl border border-white/[0.08] bg-[#111118] p-6 shadow-2xl">
-          <form onSubmit={handleSignup} className="space-y-4">
-            <div className="grid grid-cols-2 gap-3">
+        <div className="rounded-xl border border-white/[0.07] bg-[#111118] p-6 shadow-2xl shadow-black/50">
+          <form onSubmit={handleSignup} className="space-y-3">
+            <div className="grid grid-cols-2 gap-2.5">
               <div className="space-y-1.5">
-                <Label htmlFor="fullName" className="text-[#A0A0B0] text-sm">Name</Label>
+                <Label htmlFor="fullName" className="text-[#8A8A9A] text-xs font-medium">Name</Label>
                 <Input
                   id="fullName"
                   placeholder="Max M."
                   value={fullName}
                   onChange={e => setFullName(e.target.value)}
-                  className="bg-white/[0.04] border-white/[0.08] text-[#F0F0F5] placeholder:text-[#4B4B5A] focus:border-violet-500/50"
+                  className="h-9 bg-white/[0.03] border-white/[0.07] text-[#F0F0F5] placeholder:text-[#3A3A4A] focus:border-violet-500/40 text-sm"
                   required
                 />
               </div>
               <div className="space-y-1.5">
-                <Label htmlFor="username" className="text-[#A0A0B0] text-sm">Username</Label>
+                <Label htmlFor="username" className="text-[#8A8A9A] text-xs font-medium">Username</Label>
                 <Input
                   id="username"
                   placeholder="maxm"
                   value={username}
                   onChange={e => setUsername(e.target.value)}
-                  className="bg-white/[0.04] border-white/[0.08] text-[#F0F0F5] placeholder:text-[#4B4B5A] focus:border-violet-500/50"
+                  className="h-9 bg-white/[0.03] border-white/[0.07] text-[#F0F0F5] placeholder:text-[#3A3A4A] focus:border-violet-500/40 text-sm"
                   required
                 />
               </div>
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="email" className="text-[#A0A0B0] text-sm">E-Mail</Label>
+              <Label htmlFor="email" className="text-[#8A8A9A] text-xs font-medium">E-Mail</Label>
               <Input
                 id="email"
                 type="email"
                 placeholder="du@example.com"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
-                className="bg-white/[0.04] border-white/[0.08] text-[#F0F0F5] placeholder:text-[#4B4B5A] focus:border-violet-500/50"
+                className="h-9 bg-white/[0.03] border-white/[0.07] text-[#F0F0F5] placeholder:text-[#3A3A4A] focus:border-violet-500/40 text-sm"
                 required
               />
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="password" className="text-[#A0A0B0] text-sm">Passwort</Label>
+              <Label htmlFor="password" className="text-[#8A8A9A] text-xs font-medium">Passwort</Label>
               <Input
                 id="password"
                 type="password"
                 placeholder="Mindestens 6 Zeichen"
                 value={password}
                 onChange={e => setPassword(e.target.value)}
-                className="bg-white/[0.04] border-white/[0.08] text-[#F0F0F5] placeholder:text-[#4B4B5A] focus:border-violet-500/50"
+                className="h-9 bg-white/[0.03] border-white/[0.07] text-[#F0F0F5] placeholder:text-[#3A3A4A] focus:border-violet-500/40 text-sm"
                 required
               />
             </div>
             <Button
               type="submit"
-              className="w-full bg-violet-600 hover:bg-violet-500 border-0 text-white mt-2"
+              className="w-full h-9 bg-violet-600 hover:bg-violet-500 border-0 text-white text-sm font-medium mt-1 shadow-sm shadow-violet-900/30"
               disabled={loading}
             >
               {loading ? 'Erstellen...' : 'Konto erstellen'}
             </Button>
           </form>
-          <p className="text-sm text-[#6B7280] text-center mt-4">
+          <p className="text-xs text-[#4B4B5A] text-center mt-4">
             Schon ein Konto?{' '}
-            <Link href="/auth/login" className="text-violet-400 hover:text-violet-300">
+            <Link href="/auth/login" className="text-violet-400 hover:text-violet-300 transition-colors">
               Anmelden
             </Link>
           </p>

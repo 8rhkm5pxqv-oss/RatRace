@@ -29,7 +29,7 @@ function ProfileCard({ profile }: { profile: Profile }) {
 
   return (
     <Link href={`/profile/${profile.id}`} className="block group">
-      <div className="rounded-xl border border-white/[0.06] bg-[#111118] p-5 transition-all hover:border-white/10 hover:bg-[#131320] h-full">
+      <div className="rounded-xl border border-white/[0.06] bg-[#111118] p-5 transition-all duration-200 hover:border-white/[0.1] hover:bg-[#131321] h-full">
         <div className="flex items-start gap-4 mb-3">
           <Avatar className="h-12 w-12 shrink-0">
             <AvatarImage src={profile.avatar_url ?? undefined} />
@@ -74,12 +74,9 @@ export default async function FoundersPage() {
 
   return (
     <div className="px-6 py-6">
-      <div className="mb-6">
-        <div className="flex items-center gap-2 mb-1">
-          <Users className="h-5 w-5 text-[#6B7280]" />
-          <h1 className="text-xl font-bold text-[#F0F0F5]">Founders</h1>
-        </div>
-        <p className="text-sm text-[#6B7280]">
+      <div className="mb-6 border-b border-white/[0.05] pb-5">
+        <h1 className="text-lg font-semibold text-white tracking-tight">Founders</h1>
+        <p className="text-xs text-[#4B4B5A] mt-0.5">
           {profiles.length} Gründer auf der Plattform
         </p>
       </div>
